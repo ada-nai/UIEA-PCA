@@ -21,6 +21,7 @@ c. `temp_count`, which is used to keep track of the frames being skipped/ignored
     ```
      python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m ssd_ir/frozen_inference_graph.xml -pt 0.25 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768*432 -framerate 24 -i - http://0.0.0.0:3004/fac.ffm
     ```
+- Kindly refer `./write-up_images/demo_output.png` for an image of the demo output
 ![Project output image](https://raw.githubusercontent.com/ada-nai/nd131-openvino-fundamentals-project-starter/master/write-up_images/demo_output.png)
 
 
@@ -43,10 +44,12 @@ were:
 - I came across a [post](https://knowledge.udacity.com/questions/129841), where an [article](https://www.dlology.com/blog/how-to-run-tensorflow-object-detection-model-on-jetson-nano/) was mentioned regarding making inferences on frames using TensorFlow v1
 - I executed the notebook on Google Colab with 'CPU' settings and made inference on frames extracted from the sample video provided  
 
+- Kindly refer `./write-up_images/TF inference.png` for the image regarding average inference time for non-OpenVINO model
 ![Average inference time for non-OpenVINO model](https://raw.githubusercontent.com/ada-nai/nd131-openvino-fundamentals-project-starter/master/write-up_images/TF%20inference.png)
 
 - The average time of inference was _~150 ms_
 - In case of the inferences using the OpenVINO toolkit, I simply averaged out the inference time of each frame using `time.time()` function  
+- Kindly refer `./write-up_images/OpenVINO inference.png` for the image regarding average inference time for OpenVINO model
 
 ![Average inference time for OpenVINO model](https://raw.githubusercontent.com/ada-nai/nd131-openvino-fundamentals-project-starter/master/write-up_images/OpenVINO%20inference.png)
 
