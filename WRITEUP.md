@@ -2,9 +2,9 @@
 
 ## Project Workflow
 - The model used for inference for the app was the `SSD MobileNet V2 COCO`, which is a `TensorFlow` model with supported frozen topologies from the TensorFlow Object Detection Models Zoo
-- [Link to the model](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz). 
+- [Here's the link to the model](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz) 
 - PS: Create a folder `ssd_ir` and use `wget` to download the original model there. The model will then be stored in the `ssd_ir` folder
-- The following command was used in the terminal to convert it to an Intermediate Representation with the Model Optimizer (PS: Go to the `ssd_ir` folder first and then execute this command): 
+- The following command was used in the terminal to convert it to an Intermediate Representation with the Model Optimizer (NB: Go to the `ssd_ir` folder first and then execute this command): 
 `python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model ssd_ir/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb --tensorflow_object_detection_api_pipeline_config ssd_ir/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json`
 - The model will be converted into an IR and the `bin`, `xml` and `mapping` files will be stored in the `ssd_ir` folder
 - I then setup the inference mechanism along with the UI server, MQTT server and ffmpeg server
@@ -21,6 +21,8 @@ c. `temp_count`, which is used to keep track of the frames being skipped/ignored
     ```
      python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m ssd_ir/frozen_inference_graph.xml -pt 0.25 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768*432 -framerate 24 -i - http://0.0.0.0:3004/fac.ffm
     ```
+![Project output image](https://raw.githubusercontent.com/ada-nai/nd131-openvino-fundamentals-project-starter/master/write-up_images/demo_output.png)
+
 
 ## Explaining Custom Layers
 
@@ -32,16 +34,22 @@ My method(s) to compare models before and after conversion to Intermediate Repre
 were:
 
 ### Size of the model
-- The size of the original model was _180 MB_
-- The size of the model post conversion to its Intermediate Representation was reduced to _~65 MB_
-- The resultant model size was **reduced by 64%**
+- The size of the original model was _66.5 MB_
+- The size of the model post conversion to its Intermediate Representation was reduced to _~64.2 MB_
+- The resultant model size was **reduced by ~3.5%**
 
 ### Inference time of the model (/frame)
 - Personally, I do not have much exposure working with TensorFlow v.1, so I referred articles from the Knowledge section
 - I came across a [post](https://knowledge.udacity.com/questions/129841), where an [article](https://www.dlology.com/blog/how-to-run-tensorflow-object-detection-model-on-jetson-nano/) was mentioned regarding making inferences on frames using TensorFlow v1
-- I executed the notebook on Google Colab with 'CPU' settings and made inference on frames extracted from the sample video provided
+- I executed the notebook on Google Colab with 'CPU' settings and made inference on frames extracted from the sample video provided  
+
+![Average inference time for non-OpenVINO model](https://raw.githubusercontent.com/ada-nai/nd131-openvino-fundamentals-project-starter/master/write-up_images/TF%20inference.png)
+
 - The average time of inference was _~150 ms_
-- In case of the inferences using the OpenVINO toolkit, I simply averaged out the inference time of each frame using `time.time()` function
+- In case of the inferences using the OpenVINO toolkit, I simply averaged out the inference time of each frame using `time.time()` function  
+
+![Average inference time for OpenVINO model](https://raw.githubusercontent.com/ada-nai/nd131-openvino-fundamentals-project-starter/master/write-up_images/OpenVINO%20inference.png)
+
 - The average time of inference using OpenVINO toolkit was _~70 ms_
 - The inference time when using OpenVINO was **reduced by 53%**
 
