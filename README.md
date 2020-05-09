@@ -33,11 +33,15 @@ You will choose a model to use and convert it with the Model Optimizer.
 *   Npm v3.10.10
 *   CMake
 *   MQTT Mosca server
+
+## **NB**:
+- Refer the [License](https://github.com/ada-nai/nd131-openvino-fundamentals-project-starter/blob/master/LICENSE) for the project before proceeding further
+- Refer the [Project Write-up](https://github.com/ada-nai/nd131-openvino-fundamentals-project-starter/blob/master/WRITEUP.md) for command line instructions and additional info about the project
   
         
 ## Setup
 
-### Install Intel® Distribution of OpenVINO™ toolkit
+### Install Intel® Distribution of OpenVINO™ toolkit (v 2019.3.376 for this project)
 
 Utilize the classroom workspace, or refer to the relevant instructions for your operating system for this step.
 
@@ -82,18 +86,15 @@ From the main directory:
    npm config set registry "http://registry.npmjs.org"
    npm install
    ```
-
-## What model to use
-
-It is up to you to decide on what model to use for the application. You need to find a model not already converted to Intermediate Representation format (i.e. not one of the Intel® Pre-Trained Models), convert it, and utilize the converted model in your application.
-
-Note that you may need to do additional processing of the output to handle incorrect detections, such as adjusting confidence threshold or accounting for 1-2 frames where the model fails to see a person already counted and would otherwise double count.
-
-**If you are otherwise unable to find a suitable model after attempting and successfully converting at least three other models**, you can document in your write-up what the models were, how you converted them, and why they failed, and then utilize any of the Intel® Pre-Trained Models that may perform better.
-
+   
 ## Run the application
 
-From the main directory:
+### Step 0 - Convert the original model to an Intermediate Representation using the Model Optimizer
+
+Refer the [WRITEUP.md file](https://github.com/ada-nai/nd131-openvino-fundamentals-project-starter/blob/master/WRITEUP.md) for more instructions
+
+
+Furthermore, from the main directory:
 
 ### Step 1 - Start the Mosca server
 
@@ -152,9 +153,8 @@ When running Intel® Distribution of OpenVINO™ toolkit Python applications on 
 
 Though by default application runs on CPU, this can also be explicitly specified by ```-d CPU``` command-line argument:
 
-```
-python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m your-model.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.6 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://0.0.0.0:3004/fac.ffm
-```
+Refer the [WRITEUP.md file](https://github.com/ada-nai/nd131-openvino-fundamentals-project-starter/blob/master/WRITEUP.md) for the command line arguments to run the `main.py` application
+
 If you are in the classroom workspace, use the “Open App” button to view the output. If working locally, to see the output on a web based interface, open the link [http://0.0.0.0:3004](http://0.0.0.0:3004/) in a browser.
 
 #### Running on the Intel® Neural Compute Stick
@@ -171,12 +171,7 @@ To see the output on a web based interface, open the link [http://0.0.0.0:3004](
 
 #### Using a camera stream instead of a video file
 
-To get the input video from the camera, use the `-i CAM` command-line argument. Specify the resolution of the camera using the `-video_size` command line argument.
-
-For example:
-```
-python main.py -i CAM -m your-model.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.6 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://0.0.0.0:3004/fac.ffm
-```
+To get the input video from the camera, use the `-im CAM` command-line argument. Specify the resolution of the camera using the `-video_size` command line argument.
 
 To see the output on a web based interface, open the link [http://0.0.0.0:3004](http://0.0.0.0:3004/) in a browser.
 
