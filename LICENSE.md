@@ -1,6 +1,6 @@
 PROJECT LICENSE
 
-This project was submitted by Adarsh Nair as part of the Intel® Edge AI for IoT Developers Nanodegree Program At Udacity.
+This project was submitted by Adarsh Nair as part of the [Intel® Edge AI for IoT Developers Nanodegree Program](https://www.udacity.com/course/intel-edge-ai-for-iot-developers-nanodegree--nd131) At Udacity.
 
 As part of Udacity Honor code, your submissions must be your own work, hence
 submitting this project as yours will cause you to break the Udacity Honor Code
